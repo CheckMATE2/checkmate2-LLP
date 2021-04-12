@@ -1,9 +1,16 @@
 # current
+
+2021-04-12   Jong Soo Kim <jsk@th.physik.uni-bonn.de>
+
+    ~ all LLP searches updated with new impact parameter definitions, minor bug fixes
+
 2021-04-05   Jong Soo Kim <jsk@th.physik.uni-bonn.de>
-      ~ added  cms_pas_exo_16_022, bugfixes for getLLP() and getLSP() in AnalysisBase
+
+    ~ added  cms_pas_exo_16_022, bugfixes for getLLP() and getLSP() in AnalysisBase
 
 2021-03-28   Jong Soo Kim <jsk@th.physik.uni-bonn.de>
-      ~ added  atlas_1710_04901, atlas_1902_01636, atlas_2003_11956, cms_1409_4789
+
+    ~ added  atlas_1710_04901, atlas_1902_01636, atlas_2003_11956, cms_1409_4789
 
 2021-03-28   Jong Soo Kim <jsk@th.physik.uni-bonn.de>
         
