@@ -239,11 +239,17 @@ void Fritz::setupAnalysisHandler(Config conf) {
 
 static const std::string keyGlobalNEvents = "nevents";
 static const std::string keyGlobalRandomSeed = "randomseed";
+static const std::string keyGlobalInvisible = "invisiblepids";
+static const std::string keyGlobalLongLived = "longlivedpids";
+static const std::string keyGlobalMainDir = "main_dir";
 
 static void unknownKeysGlobal(Properties props) {
     std::vector<std::string> knownKeys;
     knownKeys.push_back(keyGlobalNEvents);
     knownKeys.push_back(keyGlobalRandomSeed);
+    knownKeys.push_back(keyGlobalInvisible);
+    knownKeys.push_back(keyGlobalLongLived);
+    knownKeys.push_back(keyGlobalMainDir);
     warnUnknownKeys(
             props,
             knownKeys,
@@ -279,6 +285,16 @@ void Fritz::setupGlobal(Config conf) {
     pair = maybeLookupInt(props, keyGlobalNEvents);
     haveNEvents = pair.first;
     nEvents = pair.second;
+    
+    pair = maybeLookupInt(props, keyGlobalInvisible);
+    if (pair.first) Global::LSPid = pair.second;//  Global::LSPid.push_back(pair.second);
+    
+    pair = maybeLookupInt(props, keyGlobalLongLived);
+    if (pair.first) Global::LLPid = pair.second; //Global::LLPid.push_back(pair.second);
+    
+    std::pair<bool,std::string> pair2 = maybeLookup(props, keyGlobalMainDir);
+    if (pair2.first) Global::maindir = pair.second + "/";
+
 }
 
 void Fritz::readInputFile(std::string filepath) {

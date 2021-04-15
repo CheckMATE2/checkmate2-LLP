@@ -1,8 +1,6 @@
 #include "AnalysisHandler.h"
 
 AnalysisHandler::AnalysisHandler() {
-  readLSPfromData();
-  readLLPfromData();
   doJetTauTags = false;
     eventWeight = 0;
     branchGenParticle = NULL;

@@ -222,18 +222,18 @@ class Info(dict):
         if args.invpids != "":
            try:
               cls.parameters['invisiblePIDs'] = [int(x) for x in args.invpids.split(",")]
-              with open("../data/invisiblePIDs.txt", "w") as output:
-                  for pdg in cls.parameters['invisiblePIDs']:
-                      output.write(str(pdg) + '\n')
+#              with open("../data/invisiblePIDs.txt", "w") as output:
+#                  for pdg in cls.parameters['invisiblePIDs']:
+#                      output.write(str(pdg) + '\n')
 
            except ValueError:
               AdvPrint.cerr_exit("invisible PIDs are in wrong format. Must be integer numbers, split by ','")
         if args.llpids != "":
             try:
                 cls.parameters['longlivedPIDs'] = [int(x) for x in args.llpids.split(",")]
-                with open("../data/longlivedPIDs.txt", "w") as output:
-                    for pdg in cls.parameters['longlivedPIDs']:
-                        output.write(str(pdg) + '\n')
+ #               with open("../data/longlivedPIDs.txt", "w") as output:
+ #                   for pdg in cls.parameters['longlivedPIDs']:
+ #                       output.write(str(pdg) + '\n')
             except ValueError:
                 AdvPrint.cerr_exit("long lived PIDs are in wrong format. Must be integer numbers, split by ','")
               

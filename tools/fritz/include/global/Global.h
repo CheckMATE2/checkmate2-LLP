@@ -66,6 +66,11 @@ namespace Global {
     extern std::map<std::string, TStopwatch*> stopwatches;
     
     extern int randomSeed;
+    //extern std::vector <int> LLPid;
+    //extern std::vector <int> LSPid;
+    extern int LLPid;
+    extern int LSPid;
+    extern std::string maindir;
 };
 
 #endif /* GLOBAL_H */

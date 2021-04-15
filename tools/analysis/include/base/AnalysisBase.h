@@ -100,53 +100,11 @@ class AnalysisBase {
       return pFile.peek() == std::ifstream::traits_type::eof();
     }
     
-    int getLLP(){return LLPid.size() != 0 ? LLPid[0] : 1000024;};
-    int getLSP(){return LSPid.size() != 0 ? LSPid[0] : 1000022;};
-
-    void readLLPfromData(){
-      ifstream myReadFile;
-      int temp = defaultLLP;
-	
-      myReadFile.open("../data/longlivedPIDs.txt");
-      if(is_empty(myReadFile))
-	{
-	  LLPid.push_back(temp);
-	  return;
-	}
-	
-      if (myReadFile.is_open()) {
-	while (!myReadFile.eof()) {
-	  myReadFile >> temp;
-	  LLPid.push_back(temp);
-	}
-      }
-      myReadFile.close();
-    };
-
-    void readLSPfromData(){
-      ifstream myReadFile;
-      int temp=defaultLSP;
-      
-      myReadFile.open("../data/invisiblePIDs.txt");
-	if(is_empty(myReadFile))
-	{
-	  LSPid.push_back(temp);
-	  return;
-	}
-
-      
-      if (myReadFile.is_open()) {
-	while (!myReadFile.eof()) {
-	  myReadFile >> temp;
-	  LSPid.push_back(temp);
-	}
-      }
-      myReadFile.close();
-    };
+    //int getLLP(){return Global::LLPid.size() != 0 ? Global::LLPid[0] : 1000024;};
+    //int getLSP(){return Global::LSPid.size() != 0 ? Global::LSPid[0] : 1000022;};
     
-    
-    std::vector <int> LLPid;
-    std::vector <int> LSPid;
+    int getLLP(){return Global::LLPid != 0 ? Global::LLPid : 1000024;};
+    int getLSP(){return Global::LSPid != 0 ? Global::LSPid : 1000022;};
 
     //TODO Texts
 
@@ -860,10 +818,12 @@ class AnalysisBase {
     void ignore(std::string ignore_what) {}; // TODO Remove everywhere
     double weight; //!< Current event weight usable for e.g. histograms
     /** @} */
+    
+    std::string outputFolder;
 
  private:
     // Information on files
-    std::string outputFolder;
+    //std::string outputFolder;
     std::string outputPrefix;
 
     // Information about the analysis to be printed at the start of each output file

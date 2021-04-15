@@ -13,11 +13,18 @@ void Atlas_1902_01636::initialize() {
 
   // You should initialize any declared variables here
 
-  SingleMuTurnOn_file = TFile::Open("../data/tables/atlas_1902_01636/SingleMuTurnOn.root");
-  EtmissTurnOn_file = TFile::Open("../data/tables/atlas_1902_01636/EtmissTurnOn.root"); 
-  LooseEff_file = TFile::Open("../data/tables/atlas_1902_01636/LooseEff.root"); 
-  TightPromotionEff_file = TFile::Open("../data/tables/atlas_1902_01636/TightPromotionEff.root"); 
-  MToFFullDet_file = TFile::Open("../data/tables/atlas_1902_01636/MToFFullDet.root"); 
+  //cout << outputFolder << std::endl;
+  
+  std::string file = Global::maindir + "data/tables/atlas_1902_01636/SingleMuTurnOn.root";
+  SingleMuTurnOn_file = TFile::Open(file.c_str());
+  file = Global::maindir + "data/tables/atlas_1902_01636/EtmissTurnOn.root";
+  EtmissTurnOn_file = TFile::Open(file.c_str()); 
+  file = Global::maindir + "data/tables/atlas_1902_01636/LooseEff.root";
+  LooseEff_file = TFile::Open(file.c_str()); 
+  file = Global::maindir + "data/tables/atlas_1902_01636/TightPromotionEff.root";
+  TightPromotionEff_file = TFile::Open(file.c_str()); 
+  file = Global::maindir + "data/tables/atlas_1902_01636/MToFFullDet.root";
+  MToFFullDet_file = TFile::Open(file.c_str()); 
 
   TDirectory* dir_SingleMuTurnOn = SingleMuTurnOn_file->GetDirectory("Table 23");
   TDirectory* dir_EtmissTurnOn = EtmissTurnOn_file->GetDirectory("Table 22");
@@ -75,7 +82,8 @@ void Atlas_1902_01636::analyze() {
   // - The 'return' statement will end this function for the current event and hence should be called whenever the current event is to be vetoed.
   // - Many advanced kinematical functions like mT2 are implemented. Check the manual for more information.
   // - If you need output to be stored in other files than the cutflow/signal files we provide, check the manual for how to do this conveniently.  
-
+  //cout << outputFolder << std::endl;
+    
   missingET->addMuons(muonsCombined);  // Adds muons to missing ET. This should almost always be done which is why this line is not commented out.
 
   double Etmiss = missingET->P4().Et(); 

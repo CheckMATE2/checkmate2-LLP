@@ -117,38 +117,9 @@ public:
     //! name which is printed in logfile
     std::string name;
 
-    int getLSP(){return LSPid.size() != 0 ? LSPid[0] : 1000022;};
+    //int getLSP(){return LSPid.size() != 0 ? Global::LSPid[0] : 1000022;};
 
-
-    void readLSPfromData(){
-      ifstream myReadFile;
-      int temp;
-      myReadFile.open("../data/invisiblePIDs.txt");
-      if (myReadFile.is_open()) {
-	while (!myReadFile.eof()) {
-	  myReadFile >> temp;
-	  LSPid.push_back(temp);
-	}
-      }
-      myReadFile.close();
-    };
-
-    int getLLP(){return LLPid.size() != 0 ? LLPid[0] : 1000024;};
-
-
-    void readLLPfromData(){
-      ifstream myReadFile;
-      int temp;
-      myReadFile.open("../data/longlivedPIDs.txt");
-      if (myReadFile.is_open()) {
-	while (!myReadFile.eof()) {
-	  myReadFile >> temp;
-	  LLPid.push_back(temp);
-	}
-      }
-      myReadFile.close();
-    };
-
+    //int getLLP(){return LLPid.size() != 0 ? Global::LLPid[0] : 1000024;};
     
     
 protected:
@@ -208,8 +179,8 @@ protected:
     ETMiss* missingET; //!< reconstruced missingET without muons
     MissingET* GenMissingET;
     /** @} */
-    std::vector <int> LLPid;
-    std::vector <int> LSPid;
+    //std::vector <int> LLPid;
+    //std::vector <int> LSPid;
 
     /** @defgroup tagcontainers general eventwise tag lists
      *  These lists are set for each event and stores the list of tags for

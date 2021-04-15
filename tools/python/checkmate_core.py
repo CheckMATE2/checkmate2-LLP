@@ -16,13 +16,6 @@ from resultcollector import ResultCollector
 class CheckMATE2:
     """ This is the main object whose instance corresponds to a full CheckMATE run """
     procList = list()
-
-    def __del__(self):
-
-        if os.path.isfile("../data/invisiblePIDs.txt"):
-          os.remove("../data/invisiblePIDs.txt")
-        if os.path.isfile("../data/longlivedPIDs.txt"):
-          os.remove("../data/longlivedPIDs.txt")        
         
     def __init__(self):
         #global Info, AdvPrint
