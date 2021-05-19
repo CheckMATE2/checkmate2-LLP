@@ -30,7 +30,9 @@ void Cms_pas_exo_16_022::initialize() {
 
   SR1 = 0., SR2 = 0., SR3 = 0.;
 
-  std::string file = Global::maindir + "data/tables/cms_pas_exo_16_022.root";
+  char *a = Global::get_maindir();
+  std::string maindir(a, strlen(a));
+  std::string file = maindir + std::string("/data/tables/cms_pas_exo_16_022.root");
   eff_file = TFile::Open(file.c_str());
   if(!eff_file->IsOpen()){
     cout << "Error: Unable to open file!!!";

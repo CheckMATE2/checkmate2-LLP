@@ -105,6 +105,8 @@ class AnalysisBase {
     
     int getLLP(){return Global::LLPid != 0 ? Global::LLPid : 1000024;};
     int getLSP(){return Global::LSPid != 0 ? Global::LSPid : 1000022;};
+    
+    //std::string maindir(){return Global::get_maindir();};
 
     //TODO Texts
 

@@ -16,6 +16,7 @@ Fritz::Fritz() {
     haveNEvents = false;
     nEvents = 0;
     haveRandomSeed = false;
+    directory = std::string(); 
     signal(SIGINT, signalHandler);
 }
 
@@ -293,7 +294,11 @@ void Fritz::setupGlobal(Config conf) {
     if (pair.first) Global::LLPid = pair.second; //Global::LLPid.push_back(pair.second);
     
     std::pair<bool,std::string> pair2 = maybeLookup(props, keyGlobalMainDir);
-    if (pair2.first) Global::maindir = pair.second + "/";
+    if (pair2.first) {
+        directory = pair2.second; 
+        Global::read_maindir(&directory[0]); 
+    }
+    Global::print("Fritz", directory);
 
 }
 

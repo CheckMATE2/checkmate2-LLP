@@ -15,15 +15,17 @@ void Atlas_1902_01636::initialize() {
 
   //cout << outputFolder << std::endl;
   
-  std::string file = Global::maindir + "data/tables/atlas_1902_01636/SingleMuTurnOn.root";
+  char *a = Global::get_maindir();
+  std::string maindir(a, strlen(a));
+  std::string file = maindir  + std::string("/data/tables/atlas_1902_01636/SingleMuTurnOn.root");
   SingleMuTurnOn_file = TFile::Open(file.c_str());
-  file = Global::maindir + "data/tables/atlas_1902_01636/EtmissTurnOn.root";
+  file = maindir + std::string("/data/tables/atlas_1902_01636/EtmissTurnOn.root");
   EtmissTurnOn_file = TFile::Open(file.c_str()); 
-  file = Global::maindir + "data/tables/atlas_1902_01636/LooseEff.root";
+  file = maindir + std::string("/data/tables/atlas_1902_01636/LooseEff.root");
   LooseEff_file = TFile::Open(file.c_str()); 
-  file = Global::maindir + "data/tables/atlas_1902_01636/TightPromotionEff.root";
+  file = maindir + std::string("/data/tables/atlas_1902_01636/TightPromotionEff.root");
   TightPromotionEff_file = TFile::Open(file.c_str()); 
-  file = Global::maindir + "data/tables/atlas_1902_01636/MToFFullDet.root";
+  file = maindir + std::string("/data/tables/atlas_1902_01636/MToFFullDet.root");
   MToFFullDet_file = TFile::Open(file.c_str()); 
 
   TDirectory* dir_SingleMuTurnOn = SingleMuTurnOn_file->GetDirectory("Table 23");

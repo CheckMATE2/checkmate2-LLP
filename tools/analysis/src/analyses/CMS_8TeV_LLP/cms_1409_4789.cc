@@ -25,7 +25,9 @@ void Cms_1409_4789::initialize() {
 
   SR1 = 0., SR2 = 0., SR3 = 0.;
 
-  std::string file = Global::maindir + "data/tables/cms_1409_4789.root";
+  char *a = Global::get_maindir();
+  std::string maindir(a, strlen(a));
+  std::string file = maindir + std::string("/data/tables/cms_1409_4789.root");
   eff_file = TFile::Open(file.c_str());
   if(!eff_file->IsOpen()){
     cout << "Error: Unable to open file!!!";
