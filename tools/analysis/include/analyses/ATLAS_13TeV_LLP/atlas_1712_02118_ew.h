@@ -17,7 +17,7 @@ class Atlas_1712_02118_ew : public AnalysisBase {
     double PixelTrackletSmearingFunction(double *x, double *par);
     TFile *acceffmapFile                        = 0;
     TH2 *acceffmapHist                          = 0;
-    int LLPID;
+    int LLPID, LSPID;
 };
 
 #endif

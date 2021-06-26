@@ -1,4 +1,7 @@
 # current
+2021-06-26   Jong Soo Kim <jsk@th.physik.uni-bonn.de>
+
+    ~ added strong SR of disappearing track, minor bug fixes
 
 2021-04-12   Jong Soo Kim <jsk@th.physik.uni-bonn.de>
 

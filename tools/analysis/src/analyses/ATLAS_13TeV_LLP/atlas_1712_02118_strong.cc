@@ -1,18 +1,18 @@
-#include "atlas_1712_02118_ew.h"
+#include "atlas_1712_02118_strong.h"
+
 #include <TRandom.h>
 #include <TFile.h>
 #include <TH2.h>
 #include <TF1.h>
 #include <TMath.h>
 
-#include <fstream>
 
 // AUTHOR: JSK
 //  EMAIL: jsk@th.physik.uni-bonn.de
-void Atlas_1712_02118_ew::initialize() {
-  setAnalysisName("atlas_1712_02118_ew");          
+void Atlas_1712_02118_strong::initialize() {
+  setAnalysisName("atlas_1712_02118_strong");          
   setInformation(""
-    "# ATLAS disappearing track (EW)\n"
+    "# ATLAS disappearing track (LLP)\n"
   "");
   setLuminosity(36.0*units::INVFB);      
   bookSignalRegions("SR1");
@@ -20,21 +20,14 @@ void Atlas_1712_02118_ew::initialize() {
   //  always ordered alphabetically in the cutflow output files.
 
   // You should initialize any declared variables here
-  const std::string production = "electroweak";
 
-    char *a = Global::get_maindir();
-  std::string maindir(a, strlen(a));
-  std::string file = maindir  + std::string("/data/tables/DisappearingTrack2016-TrackAcceptanceEfficiency.root");
-  const char *const acceffmapFilePath         = file.c_str();
+  const std::string production = "strong";
+
+  const char *const acceffmapFilePath         = "../data/tables/DisappearingTrack2016-TrackAcceptanceEfficiency.root";
   const char *const acceffStrongHistName      = "StrongEfficiency";
   const char *const acceffElectroweakHistName = "ElectroweakEfficiency";
+  
 
-  //  std::ifstream is("../data/longlivedPIDs.txt");
-  //  while(is >> LLPID)
-
-  //  LLPID =  LLPid.size() != 0 ? LLPid[0] : 1000024;
-  LLPID = getLLP();
-  LSPID = getLSP();
   // Read efficiency map
   if (!acceffmapFile) {
     acceffmapFile = new TFile (acceffmapFilePath);
@@ -51,11 +44,10 @@ void Atlas_1712_02118_ew::initialize() {
       return;
     }
   }
-
-  
 }
 
-void Atlas_1712_02118_ew::analyze() {
+
+void Atlas_1712_02118_strong::analyze() {
   // Your eventwise analysis code goes here
   // The following objects are always defined unless they are 'ignored' above. They form std::vector objects of the respective Delphes class type (except for Etmiss which is a single object)
   // All std::vector members and etmiss have the common properties PT, Eta, Phi and P4() with the latter giving access to the full ROOT TLorentzVector.
@@ -99,7 +91,7 @@ void Atlas_1712_02118_ew::analyze() {
 
   missingET->addMuons(muonsCombined);  // Adds muons to missing ET. This should almost always be done which is why this line is not commented out.
 
-  // Switch to simulated pT resolution of tracklets
+    // Switch to simulated pT resolution of tracklets
   const bool doPtSmearing = true;
   //  const bool doPtSmearing = false;
   
@@ -114,30 +106,27 @@ void Atlas_1712_02118_ew::analyze() {
   std::vector<GenParticle*> neutralinos;
   double r,y;
   
-
+  int LSPID = getLSP();
+  int LLPID = getLLP();
   
 
-  //  std::cout << "-----------------NEU----------------------" << std::endl;
-
-  //  std::cout << LLPID << std::endl;
+  std::cout << "-----------------NEU----------------------" << std::endl;
   
   for(int i=0;i<true_particles.size();i++){
     //    std::cout << "i: " << i <<std::endl;
     if( fabs(true_particles[i]->PID) == LLPID ){
-      //      std::cout << true_particles[i]->Status << std::endl;
-      if( true_particles[i]->Status == 62){
-	//	std::cout << "found chargino!" << std::endl;
+      //      if( true_particles[i]->Status == 62){
+      if( true_particles[true_particles[i]->D1]->PID == LSPID || true_particles[true_particles[i]->D2]->PID == LSPID){
+      
 	charginostemp.push_back(true_particles[i]);
-	//	 std::cout << "chargino Status: " << true_particles[i]->Status << std::endl;
+	//       	 std::cout << "chargino Status: " << true_particles[i]->Status << std::endl;
 	//	 std::cout << "chargino daughter: " << true_particles[i]->D1 << " " << true_particles[i]->D1 << std::endl;
 	//	 std::cout << "chargino mother: " << true_particles[i]->M1 << " " << true_particles[i]->M1 << std::endl;
 
 	for(int j=i;j < true_particles.size();j++){
-	  //	  std::cout << "j: " << j <<std::endl;
-	  //	  if(true_particles[j]->PID == 1000022)
-	    //    std::cout << true_particles[j]->Status << std::endl;
-	  if(true_particles[j]->PID == LSPID && fabs(true_particles[j]->Status) == 1 && true_particles[j]->M1 == i){
-	    //	    std::cout << "found neutralino!" << std::endl;
+	  std::cout << "j: " << j <<std::endl;
+	  if(true_particles[j]->PID == LSPID && true_particles[j]->Status == 1 && true_particles[j]->M1 == i){
+
 	    neutralinos.push_back(true_particles[j]);
 	    //	    std::cout << "neutralino status: "  << true_particles[j]->Status << std::endl;
 	    //	    std::cout << "neutralino daughter: " << true_particles[j]->D1 << " " << true_particles[j]->D1 << std::endl;
@@ -148,9 +137,6 @@ void Atlas_1712_02118_ew::analyze() {
     }
   }
 
-  if(charginostemp.size()==0 || neutralinos.size() == 0)
-    return;
-  
     // Simulate tracklet efficiency
   for (int i=0;i<charginostemp.size();i++) {
     // Simulate decay position
@@ -158,9 +144,9 @@ void Atlas_1712_02118_ew::analyze() {
       r=TMath::Sqrt(neutralinos[i]->X*neutralinos[i]->X+neutralinos[i]->Y*neutralinos[i]->Y);
       y=neutralinos[i]->Eta;
       //      std::cout << "i : " << i << std::endl;
-      //std::cout << "r : " << r << std::endl;
-      //std::cout << "eff: "<< acceffmapHist->GetBinContent(acceffmapHist->FindBin(y,r)) << std::endl;
-      //std::cout << "before " << charginostemp.size() <<std::endl;
+      //      std::cout << "r : " << r << std::endl;
+      //      std::cout << "eff: "<< acceffmapHist->GetBinContent(acceffmapHist->FindBin(y,r)) << std::endl;
+      //      std::cout << "before " << charginostemp.size() <<std::endl;
       
       if (gRandom->Rndm() < acceffmapHist->GetBinContent(acceffmapHist->FindBin(y,r))) {
 	charginos.push_back(charginostemp[i]);
@@ -176,7 +162,7 @@ void Atlas_1712_02118_ew::analyze() {
   switch (charginos.size()) {
   case 0:
     charginoIndex = -1;
-    return;
+    break;
   case 1:
     charginoIndex = 0;
     break;
@@ -214,41 +200,20 @@ void Atlas_1712_02118_ew::analyze() {
   std::vector<Jet*> jets50;			      
   jets50 = filterPhaseSpace(jets, 50., -2.8, 2.8);
   
-  //double met = missingET->P4().Et();
+  double met = missingET->P4().Et();
 
   
-  //  for (int i=0;i<charginos.size();i++) {
-  //  met=met+charginos[i]->PT;
-  //}
-
-  TLorentzVector metVec = missingET->P4();
-
-  double Px = 0;
-  double Py = 0;
   for (int i=0;i<charginos.size();i++) {
-    Px += charginos[i]->Px;
-    Py += charginos[i]->Py;
+    met=met+charginos[i]->PT;
   }
-  // don't add charginos to MET, since neutrlalinos are already included.
-  //  metVec.SetPxPyPzE(metVec.Px() + Px, metVec.Py() + Py, 0.0, 1.0);
-  double met = metVec.Pt();
-
-  
 
   //Trigger cut
   
   double randtoss = rand()/(RAND_MAX+1.);
 
   bool trigger=false;
-  //  if( met > 110. && randtoss < 0.20 )
-  if( met > 100. )
+  if( met > 70.); // && randtoss > 0.96 )
     trigger=true;
-
-  //if( met > 70. && randtoss < 0.75 )
-  //  trigger=true;
-
-  
-  //  trigger=true;
   
   if(!trigger)
     return;
@@ -257,44 +222,55 @@ void Atlas_1712_02118_ew::analyze() {
   
   //Lepton Veto
   
-  //if( electronsTight.size() || muonsCombined.size() )
-  //  return;
+  if( electronsTight.size() || muonsCombined.size() )
+    return;
   
   countCutflowEvent("1_leptonveto");
   
   
-  if(jets.size() == 0 )
+  if(jets.size() <= 2 )
     return;
   
-  countCutflowEvent("2_at_least_one_jet");
+  countCutflowEvent("2_at_least_two_jet");
   
-  if(jets[0]->PT < 140.)
+  if(jets[0]->PT < 100.)
+    return;
+
+  countCutflowEvent("3_ptmin(j1)>100");
+  
+  if(jets[1]->PT < 50.)
+    return;
+
+  countCutflowEvent("4_ptmin(j2)>50");
+
+  if(jets[2]->PT < 50.)
+    return;
+
+  countCutflowEvent("5_ptmin(j3)>50");
+
+  
+  if(met < 150.)
     return;
   
-  countCutflowEvent("3_ptmin(j1)>140");
-  
-  
-  if(met < 140.)
-    return;
-  
-  countCutflowEvent("4_MET");
+  countCutflowEvent("6_MET");
   
   
   for (int i = 0; i < jets50.size(); i++ ){
-    if ( jets50.size() < 5 && fabs(jets50[i]->P4().DeltaPhi( missingET->P4() )) < 1.0 )
+    if(i==3) break;
+    if ( fabs(jets50[i]->P4().DeltaPhi( missingET->P4() )) < 0.4 )
       return;
   }
   
-  countCutflowEvent("5_DeltaPhiCut");
+  countCutflowEvent("7_DeltaPhiCut");
     
   if (charginoIndex >= 0) {
     double charginoPt = charginos[charginoIndex]->PT;
-    countCutflowEvent("7_Chargino_candidate");
+    countCutflowEvent("8_Chargino_candidate");
     if (doPtSmearing) {
       charginoPt = ptSmeared;
     }
     if (charginoPt > 100) {
-      countCutflowEvent("8_Chargino_PT");
+      countCutflowEvent("9_Chargino_PT");
       // double deltaphi,deltaeta,delta;
       // double pi= 3.14159;
       // for(int i=0;i< jets50.size();i++){
@@ -320,12 +296,11 @@ void Atlas_1712_02118_ew::analyze() {
   
 }
 
-void Atlas_1712_02118_ew::finalize() {
+void Atlas_1712_02118_strong::finalize() {
   // Whatever should be done after the run goes here
 }       
 
-
-double Atlas_1712_02118_ew::PixelTrackletSmearingFunction(double *x, double *par) {
+double Atlas_1712_02118_strong::PixelTrackletSmearingFunction(double *x, double *par) {
         double constant = par[0];
         double mean     = par[1];
         double sigma    = par[2];
@@ -352,4 +327,3 @@ double Atlas_1712_02118_ew::PixelTrackletSmearingFunction(double *x, double *par
             return constant * std::exp(-0.5 * z * z);
         }
 }
-

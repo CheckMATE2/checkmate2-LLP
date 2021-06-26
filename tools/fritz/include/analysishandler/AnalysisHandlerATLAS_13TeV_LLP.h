@@ -14,6 +14,7 @@
 #include "atlas_1710_04901.h"
 #include "atlas_1902_01636.h"
 #include "atlas_2003_11956.h"
+#include "jsk.h"
 //@extraheader@
 #include "AnalysisBase.h"
 

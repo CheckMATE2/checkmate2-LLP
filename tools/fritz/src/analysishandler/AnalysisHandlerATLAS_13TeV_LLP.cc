@@ -44,6 +44,8 @@ void AnalysisHandlerATLAS_13TeV_LLP::bookAnalysis(std::string analysisName,
         a = new Atlas_1902_01636();
     else if(analysisName == "atlas_2003_11956")
         a = new Atlas_2003_11956();
+    else if(analysisName == "jsk")
+        a = new Jsk();
     else //@@extracode@@
         Global::abort(name,
                       "Cannot load analysis "+analysisName+
