@@ -22,8 +22,11 @@ void Atlas_1712_02118_strong::initialize() {
   // You should initialize any declared variables here
 
   const std::string production = "strong";
-
-  const char *const acceffmapFilePath         = "../data/tables/DisappearingTrack2016-TrackAcceptanceEfficiency.root";
+  
+  char *a = Global::get_maindir();
+  std::string maindir(a, strlen(a));
+  std::string file = maindir  + std::string("/data/tables/DisappearingTrack2016-TrackAcceptanceEfficiency.root");  
+  const char *const acceffmapFilePath         = file.c_str();;
   const char *const acceffStrongHistName      = "StrongEfficiency";
   const char *const acceffElectroweakHistName = "ElectroweakEfficiency";
   
