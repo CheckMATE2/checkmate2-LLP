@@ -1,0 +1,11 @@
+[Parameters]
+Name: ExampleRun
+Analyses: atlas_1710_04901
+longlivedPIDs: 1000021
+invisiblePIDs: 1000022
+SLHAFile: ./example_run_cards/auxiliary/1710_04901_test_gluino_tau_0.1.slha
+
+[1710_04901_example_run]
+Pythia8Process: p p > go go
+MaxEvents: 10000
+XSect: 0.0284 PB

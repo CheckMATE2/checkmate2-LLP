@@ -27,7 +27,6 @@ void Atlas_1712_02118_strong::initialize() {
   std::string maindir(a, strlen(a));
   std::string file = maindir  + std::string("/data/tables/DisappearingTrack2016-TrackAcceptanceEfficiency.root");
   const char *const acceffmapFilePath         = file.c_str();
-
   const char *const acceffStrongHistName      = "StrongEfficiency";
   const char *const acceffElectroweakHistName = "ElectroweakEfficiency";
   
