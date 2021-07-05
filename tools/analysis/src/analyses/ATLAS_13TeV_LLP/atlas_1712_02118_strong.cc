@@ -22,8 +22,12 @@ void Atlas_1712_02118_strong::initialize() {
   // You should initialize any declared variables here
 
   const std::string production = "strong";
+  
+  char *a = Global::get_maindir();
+  std::string maindir(a, strlen(a));
+  std::string file = maindir  + std::string("/data/tables/DisappearingTrack2016-TrackAcceptanceEfficiency.root");
+  const char *const acceffmapFilePath         = file.c_str();
 
-  const char *const acceffmapFilePath         = "../data/tables/DisappearingTrack2016-TrackAcceptanceEfficiency.root";
   const char *const acceffStrongHistName      = "StrongEfficiency";
   const char *const acceffElectroweakHistName = "ElectroweakEfficiency";
   
@@ -108,13 +112,14 @@ void Atlas_1712_02118_strong::analyze() {
   
   int LSPID = getLSP();
   int LLPID = getLLP();
-  
 
-  std::cout << "-----------------NEU----------------------" << std::endl;
+  //  std::cout << LSPID << " " << LLPID << std::endl;
+
+  //  std::cout << "-----------------NEU----------------------" << std::endl;
   
   for(int i=0;i<true_particles.size();i++){
     //    std::cout << "i: " << i <<std::endl;
-    if( fabs(true_particles[i]->PID) == LLPID ){
+    if( fabs(true_particles[i]->PID) == LLPID && true_particles[i]->Charge != 0){
       //      if( true_particles[i]->Status == 62){
       if( true_particles[true_particles[i]->D1]->PID == LSPID || true_particles[true_particles[i]->D2]->PID == LSPID){
       
@@ -124,8 +129,8 @@ void Atlas_1712_02118_strong::analyze() {
 	//	 std::cout << "chargino mother: " << true_particles[i]->M1 << " " << true_particles[i]->M1 << std::endl;
 
 	for(int j=i;j < true_particles.size();j++){
-	  std::cout << "j: " << j <<std::endl;
-	  if(true_particles[j]->PID == LSPID && true_particles[j]->Status == 1 && true_particles[j]->M1 == i){
+	  //	  std::cout << "j: " << j <<std::endl;
+	  if(true_particles[j]->PID == LSPID && true_particles[j]->Status == 1 && true_particles[j]->M1 == i && true_particles[j]->Charge == 0){
 
 	    neutralinos.push_back(true_particles[j]);
 	    //	    std::cout << "neutralino status: "  << true_particles[j]->Status << std::endl;
@@ -137,6 +142,11 @@ void Atlas_1712_02118_strong::analyze() {
     }
   }
 
+
+  if(charginostemp.size()==0 || neutralinos.size() == 0 || charginostemp.size() != neutralinos.size() )
+    return;
+
+  
     // Simulate tracklet efficiency
   for (int i=0;i<charginostemp.size();i++) {
     // Simulate decay position
@@ -187,7 +197,7 @@ void Atlas_1712_02118_strong::analyze() {
     ptSmeared = fabs(1. / qoverptSmeared) * (1e+3); // /TeV -> GeV
   }
   
-  std::cout << "charginoindex : " << charginoIndex << std::endl;
+  //  std::cout << "charginoindex : " << charginoIndex << std::endl;
 
   
   jets = filterPhaseSpace(jets, 20., -2.8, 2.8);  

@@ -22,7 +22,7 @@ void Atlas_1712_02118_ew::initialize() {
   // You should initialize any declared variables here
   const std::string production = "electroweak";
 
-    char *a = Global::get_maindir();
+  char *a = Global::get_maindir();
   std::string maindir(a, strlen(a));
   std::string file = maindir  + std::string("/data/tables/DisappearingTrack2016-TrackAcceptanceEfficiency.root");
   const char *const acceffmapFilePath         = file.c_str();
@@ -35,6 +35,9 @@ void Atlas_1712_02118_ew::initialize() {
   //  LLPID =  LLPid.size() != 0 ? LLPid[0] : 1000024;
   LLPID = getLLP();
   LSPID = getLSP();
+
+  //  std::cout << "-----------------NEU----------------------" << std::endl;
+
   // Read efficiency map
   if (!acceffmapFile) {
     acceffmapFile = new TFile (acceffmapFilePath);
@@ -120,10 +123,12 @@ void Atlas_1712_02118_ew::analyze() {
   //  std::cout << "-----------------NEU----------------------" << std::endl;
 
   //  std::cout << LLPID << std::endl;
-  
+
+  //  std::cout << LSPID << " " << LLPID << std::endl;
+    
   for(int i=0;i<true_particles.size();i++){
     //    std::cout << "i: " << i <<std::endl;
-    if( fabs(true_particles[i]->PID) == LLPID ){
+    if( fabs(true_particles[i]->PID) == LLPID && true_particles[i]->Charge != 0 ){
       //      std::cout << true_particles[i]->Status << std::endl;
       if( true_particles[i]->Status == 62){
 	//	std::cout << "found chargino!" << std::endl;
@@ -136,7 +141,7 @@ void Atlas_1712_02118_ew::analyze() {
 	  //	  std::cout << "j: " << j <<std::endl;
 	  //	  if(true_particles[j]->PID == 1000022)
 	    //    std::cout << true_particles[j]->Status << std::endl;
-	  if(true_particles[j]->PID == LSPID && fabs(true_particles[j]->Status) == 1 && true_particles[j]->M1 == i){
+	  if(true_particles[j]->PID == LSPID && fabs(true_particles[j]->Status) == 1 && true_particles[j]->M1 == i && true_particles[j]->Charge == 0){
 	    //	    std::cout << "found neutralino!" << std::endl;
 	    neutralinos.push_back(true_particles[j]);
 	    //	    std::cout << "neutralino status: "  << true_particles[j]->Status << std::endl;
@@ -148,8 +153,12 @@ void Atlas_1712_02118_ew::analyze() {
     }
   }
 
-  if(charginostemp.size()==0 || neutralinos.size() == 0)
+  //  std::cout << "-----------------AFTER----------------------" << std::endl;
+  
+  if(charginostemp.size()==0 || neutralinos.size() == 0 || charginostemp.size() != neutralinos.size() )
     return;
+
+  //  std::cout << "-----------------AFTER2----------------------" << std::endl;
   
     // Simulate tracklet efficiency
   for (int i=0;i<charginostemp.size();i++) {
