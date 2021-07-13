@@ -11,9 +11,11 @@ Congratulations! If you are able to read this file, you apparently managed to do
 CheckMATE uses the standard ./configure + make + make install chain. For the configuration step, you must not provide --prefix (it will screw up the installation) but you have to provide the following parameters:
 --with-rootsys=(ROOTDIR)
 --with-delphes=(DELPHESDIR)
+requires Delphes 3.5.0 or newer
 
 If desired, event generation can be enabled by furthermore providing the following optional parameters
 --with-madgraph=(MG5MCNLODIR)
 --with-pythia=(PYTHIADIR)
+requires Pythia 8.2
 
 If you are not an expert on this subject, we highly recommend to go to the 'Installation Tutorial' on our website, http://checkmate.hepforge.org . There we will go through the above configuration step in all detail and most importantly explain to you how to find and install missing libraries. 

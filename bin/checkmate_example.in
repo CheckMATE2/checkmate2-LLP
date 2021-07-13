@@ -1,6 +1,6 @@
 [Parameters]
 Name: ExampleRun
-Analyses: atlas_1710_04901
+Analyses: atlas_1712_02118_ew, atlas_1712_02118_strong
 longlivedPIDs: 1000021
 invisiblePIDs: 1000022
 SLHAFile: ./example_run_cards/auxiliary/1710_04901_test_gluino_tau_0.1.slha
